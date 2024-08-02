@@ -166,15 +166,8 @@ struct priority_tag<0> {};
     defined(CR_USE_FALLBACKS_FOR_GCC_WITH_LIBCXX)
 template <typename T>
 struct is_trivially_copyable {
-// TODO(danakj): Remove this when android builders are all using a newer version
-// of gcc, or the android ndk is updated to a newer libc++ that does this for
-// us.
-#if _GNUC_VER >= 501
-  static constexpr bool value = __is_trivially_copyable(T);
-#else
-  static constexpr bool value =
-      __has_trivial_copy(T) && __has_trivial_destructor(T);
-#endif
+
+static constexpr bool value = __is_trivially_copyable(T);
 };
 #else
 template <class T>
